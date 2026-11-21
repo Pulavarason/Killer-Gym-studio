@@ -144,7 +144,8 @@ export default function CinematicHero({ ready }: { ready: boolean }) {
   }, [mode]);
 
   /* ——— static / no-WebGL / reduced-motion fallback ——— */
-  if (mode !== "3d") {
+  // On phones, keep the intro to one viewport so Philosophy follows immediately.
+  if (mode !== "3d" || lite) {
     return (
       <section id="top" className="grain relative flex min-h-[100svh] items-end overflow-hidden bg-ink px-6 pb-20 pt-32 md:px-14">
         <div className="absolute inset-0" style={{ background: "radial-gradient(60% 70% at 72% 40%, rgba(201,162,74,.25), transparent 65%), linear-gradient(180deg,#050505,#0d0b07 60%,#050505)" }} />
