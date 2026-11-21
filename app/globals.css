@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #050505;
+  --color-coal: #0b0b0b;
+  --color-graphite: #141414;
+  --color-steel: #1e1e1e;
+  --color-gold: #c9a24a;
+  --color-gold-hi: #f0d58a;
+  --color-gold-lo: #8a6a24;
+  --color-bone: #f4f1ea;
+  --color-mist: #a9a59b;
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { background: var(--color-ink); scroll-behavior: auto; }
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+::selection { background: var(--color-gold); color: #000; }
+
+/* ——— type ——— */
+.display { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 0.88; letter-spacing: -0.01em; }
+.serif { font-family: var(--font-serif); font-style: italic; font-weight: 500; }
+.eyebrow { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.32em; font-size: 0.8rem; color: var(--color-gold); }
+.gold-text {
+  background: linear-gradient(100deg, #8a6a24 0%, #f0d58a 38%, #c9a24a 55%, #fff1bf 70%, #9b7a2c 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.outline-text { -webkit-text-stroke: 1px rgba(240, 213, 138, 0.55); color: transparent; }
+
+/* ——— surfaces ——— */
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.hairline { border: 1px solid rgba(201, 162, 74, 0.18); }
+.gold-line { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
+
+/* ——— masking helper for text reveals ——— */
+.mask { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.mask > span { display: block; will-change: transform; }
+.mask-hidden .mask > span { opacity: 0; }
+
+/* ——— buttons ——— */
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .75rem;
+  padding: 1.05rem 2rem; font-family: var(--font-display); font-weight: 700; letter-spacing: .18em; text-transform: uppercase; font-size: .95rem;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: transform .5s var(--ease-cine), background .4s, color .4s, box-shadow .4s;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-gold { background: linear-gradient(120deg, #a8832f, #f0d58a 45%, #c9a24a 70%, #8a6a24); color: #0a0a0a; box-shadow: 0 10px 40px -10px rgba(201,162,74,.55); }
+.btn-gold:hover { box-shadow: 0 14px 54px -8px rgba(240,213,138,.75); }
+.btn-ghost { background: rgba(255,255,255,.03); color: var(--color-bone); box-shadow: inset 0 0 0 1px rgba(201,162,74,.5); backdrop-filter: blur(6px); }
+.btn-ghost:hover { background: rgba(201,162,74,.12); color: var(--color-gold-hi); }
+
+/* ——— focus ——— */
+:focus-visible { outline: 2px solid var(--color-gold-hi); outline-offset: 3px; }
+
+/* ——— scrollbar ——— */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #2a2418; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold-lo); }
+
+@keyframes sheen { from { background-position: 220% 0; } to { background-position: -120% 0; } }
+.sheen { animation: sheen 6s var(--ease-cine) infinite; }
+@keyframes scrollcue { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(100%); } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mask-hidden .mask > span { opacity: 1 !important; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
